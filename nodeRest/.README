@@ -1,0 +1,23 @@
+*The file called .module contains the routes to connect with the services
+*Normally this backend it's compound with that prohect tree
+	#folder_node_modules
+	#folder_src
+	{
+		#folder_Modules
+		{
+			#folder_client
+			{
+				#folder_Controllers
+				#folder_Models
+				#folder_Services
+				client.module
+			}
+		}
+		#folder_Interfaces
+		{
+			responde.interface.js
+		}
+	}
+	.README
+	package-lock.json
+	package.json
