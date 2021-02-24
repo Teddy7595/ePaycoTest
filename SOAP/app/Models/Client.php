@@ -11,6 +11,9 @@ class Client extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    public $timestamps = false;
+    protected $table = 'clients';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -18,8 +21,8 @@ class Client extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'lst_name'
-        'mail',
+        'lst_name',
+        'email',
         'id_card',
         'phone'
     ];

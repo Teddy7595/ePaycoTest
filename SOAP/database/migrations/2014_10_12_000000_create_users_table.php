@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('lst_name');
             $table->string('email')->unique();
             $table->string('phone');
+            $table->string('id_card');
             $table->string('amount');
         });
     }

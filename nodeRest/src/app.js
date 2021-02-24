@@ -1,11 +1,8 @@
 let express = require('express');
-
-let mongoose = require("mongoose");
 // importación de bodyparser para el uso de envio de formularios en post
 let bodyParser = require("body-parser");
 // ------------
 // cors
-let https = require('https');
 let cors = require("cors");
 // inicializar las variables necesarias
 // se inicializa express
@@ -35,23 +32,13 @@ app.use(cors(
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-mongoose.connection.openUri('mongodb://localhost:27017/PruebaPayco',{useNewUrlParser: true, useUnifiedTopology: true } ,(err, res) =>
-{
-  // si hay un error entonces
-  if (err) throw err;
-  console.logog('Base de datos Mongo: En linea');
-  console.clear();
-});
-
 //importo los modulos del backend
-const client = require('./Modules/Client/client.module.js').CLIENT_MODULE;
 const wallet = require('./Modules/Wallet/wallet.module.js').WALLET_MODULE;
-
-app.use('/client', client);
 app.use('/wallet', wallet);
 
 app.listen(PORT_REST, ()=>
 {
+	
 	console.log('SERVICIO EN LINEA');
   
 
