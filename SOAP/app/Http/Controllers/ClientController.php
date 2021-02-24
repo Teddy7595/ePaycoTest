@@ -5,9 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\Client;
+use App\Src\Payment;
 
 class ClientController extends Controller
 {
+	private Payment $_Payment;
+
+	public function __construct()
+	{
+		$this->_Payment = new Payment();
+	}
 
 	//funcion de registro cliente
     public function signin(Request $request)
@@ -99,8 +106,8 @@ class ClientController extends Controller
     	}
     }
 
-    public function payment()
+    public function payment(Request $request)
     {
-
+    	return $request->toArray();
     }
 }

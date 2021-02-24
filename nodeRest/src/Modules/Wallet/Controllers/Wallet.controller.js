@@ -38,7 +38,6 @@ WALLET_ROUTE.post('/signin',(req,res)=>
 	.then( response => response.json())
 	.then( (data) =>
 	{ 
-		console.log(data);
 		_Response = data;
 		return res.status(_Response.status).json(_Response); 
 	})
@@ -83,11 +82,40 @@ WALLET_ROUTE.post('/recharge',(req, res)=>
 
 WALLET_ROUTE.post('/payment',(req, res)=>
 {//ruta de pago
-	return res.status(200).json(_Response); 
+	const send =
+	{
+		"Id_SELLER"     : req.body.Id_SELLER,
+    	"Id_CLIENT"     : req.body.Id_CLIENT,
+    	"amount"        : req.body.amount,
+    	"descp"         : req.body.descp,
+	}
+
+	call(URL_ROOT+'/wallet/payment',
+	{
+		method: 'POST',
+		headers:
+		{
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(send),
+		cache: 'no-cache'
+	})
+	.then( response => response.json())
+	.then( (data) =>
+	{ 
+		_Response = data;
+		return res.status(_Response.status).json(_Response); 
+	})
+	.catch( (err) =>
+	{
+		console.log(err);
+		return res.status(500).json(err);
+	});
 });
 
 WALLET_ROUTE.post('/payment/confirm',(req, res)=>
 {//ruta de confirmación de pago
+
 	return res.status(200).json(_Response); 
 });
 
