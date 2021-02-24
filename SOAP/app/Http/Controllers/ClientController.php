@@ -25,7 +25,7 @@ class ClientController extends Controller
 				'status' => 202, 
 				'message' => 'Gracias por registrarte'
 
-			],202)->header('Content-type', 'json');
+			],202)->header('Content-Type', 'application/json');
     		
     	} catch (Exception $e) 
     	{
@@ -35,7 +35,7 @@ class ClientController extends Controller
 				'status' => 500, 
 				'message' => $e->getMessage()
 				
-			],500)->header('Content-type', 'json');
+			],500)->header('Content-Type', 'application/json');
     	}
     }
 
@@ -53,7 +53,7 @@ class ClientController extends Controller
 				'status' => 202, 
 				'message' => 'Tiene un saldo de...'
 
-			],202)->header('Content-type', 'json');
+			],202)->header('Content-Type', 'application/json');
     	}else
     	{
     		return response(
@@ -62,7 +62,7 @@ class ClientController extends Controller
 				'status' => 404, 
 				'message' => 'No se encontrró al cliente'
 
-			],404)->header('Content-type', 'json');
+			],404)->header('Content-Type', 'application/json');
     	}
     }
 
@@ -78,7 +78,7 @@ class ClientController extends Controller
 
     		try 
 	    	{
-	    		$cliente->save();
+	    		$cliente->update();
 
 	    		return response(
 				[
@@ -87,7 +87,7 @@ class ClientController extends Controller
 					'status' => 202, 
 					'message' => 'Recarga exitosa!'
 
-				],202)->header('Content-type', 'json');
+				],202)->header('Content-Type', 'application/json');
 	    		
 	    	} catch (Exception $e) 
 	    	{
@@ -95,9 +95,9 @@ class ClientController extends Controller
 				[
 					'ok'=> false, 
 					'status' => 500, 
-					'message' => $e->getMessage()
+					'message' => report($e)
 					
-				],500)->header('Content-type', 'json');
+				],500)->header('Content-Type', 'application/json');
 	    	}
 
     	}else
@@ -108,7 +108,12 @@ class ClientController extends Controller
 				'status' => 404, 
 				'message' => 'No se encontrró al cliente'
 
-			],404)->header('Content-type', 'json');
+			],404)->header('Content-Type', 'application/json');
     	}
+    }
+
+    public function payment()
+    {
+
     }
 }
