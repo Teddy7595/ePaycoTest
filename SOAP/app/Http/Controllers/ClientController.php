@@ -108,6 +108,13 @@ class ClientController extends Controller
 
     public function payment(Request $request)
     {
-    	return $request->toArray();
+    	return response(
+		[
+			'data'=> $this->_Payment->makePaySession($request), 
+			'ok'=> true, 
+			'status' => 202, 
+			'message' => 'Recarga exitosa!'
+
+		],202)->header('Content-Type', 'application/json');
     }
 }
