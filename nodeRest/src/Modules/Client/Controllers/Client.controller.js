@@ -1,21 +1,15 @@
-const app = require('express');
-const CLIENT_MODULE = app();
-const Service = 
-{
-	signin: require('../Services/signin.service')
-};
 let _Response = require('../../../Interfaces/response.interface');
+const app = require('express');
+CLIENT_ROUTE = app();
 
-CLIENT_MODULE.get('/hello',(req, res)=>
+CLIENT_ROUTE.get('/hello',(req, res)=>
 {
 	return res.status(200).json('Ruta de registro de cliente');
 });
 
-CLIENT_MODULE.post('/signin', (req,res)=>
+CLIENT_ROUTE.post('/signin', async (req,res)=>
 {
-	let signinService = new Service.signin();
-	_Response = signinService.callSoapSignin(req);
-	return res.status(_Response.status).json(_Response);
+	return res.status(200).json(_Response);
 });
 
-module.exports = CLIENT_MODULE;
+module.exports = CLIENT_ROUTE;

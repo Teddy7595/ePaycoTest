@@ -9,8 +9,25 @@
 			{
 				#folder_Controllers
 				#folder_Models
+				{
+					#folder_schemas
+					{
+						user.model.js
+					}
+				}
 				#folder_Services
+				{
+					signin.service.js
+				}
 				client.module
+			}
+			#folder_wallet
+			{
+				#folder_Controllers
+				#folder_Models
+				#folder_Services
+					wallet.service.js
+				wallet.module
 			}
 		}
 		#folder_Interfaces
