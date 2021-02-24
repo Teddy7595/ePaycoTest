@@ -1,33 +1,17 @@
-*The file called .module contains the routes to connect with the services
-*Normally this backend it's compound with that prohect tree
+*The file called .module contains the routes to connect with the routes
+*Normally this backend it's compound with this project tree
 	#folder_node_modules
 	#folder_src
 	{
 		#folder_Modules
 		{
-			#folder_client
-			{
-				#folder_Controllers
-				#folder_Models
-				{
-					#folder_schemas
-					{
-						user.model.js
-					}
-				}
-				#folder_Services
-				{
-					signin.service.js
-				}
-				client.module
-			}
 			#folder_wallet
 			{
 				#folder_Controllers
-				#folder_Models
+					wallet.controller.js
 				#folder_Services
 					wallet.service.js
-				wallet.module
+				wallet.module.js
 			}
 		}
 		#folder_Interfaces

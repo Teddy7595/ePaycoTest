@@ -27,7 +27,7 @@ class ClientController extends Controller
 
 			],202)->header('Content-Type', 'application/json');
     		
-    	} catch (Exception $e) 
+    	} catch (\Exception $e) 
     	{
     		return response(
 			[
@@ -44,11 +44,11 @@ class ClientController extends Controller
     {
     	$cliente = Client::where('email', $request->toArray()['email'])->get();
     	
-    	if($cliente)
+    	if(sizeof($cliente) > 0)
     	{
     		return response(
 			[
-				'data'=> $cliente->toArray()[0]['amount'], 
+				'data'=> ['saldo' => $cliente->toArray()[0]['amount']], 
 				'ok'=> true, 
 				'status' => 202, 
 				'message' => 'Tiene un saldo de...'
@@ -74,31 +74,18 @@ class ClientController extends Controller
     					 ->find(1);
     	if($cliente)
     	{
-    		$cliente->amount = $request->amount;
+    		$cliente->amount = $cliente->amount + $request->amount;
 
-    		try 
-	    	{
-	    		$cliente->update();
+    		$cliente->update();
 
-	    		return response(
-				[
-					'data'=> ['saldo' => $cliente->amount], 
-					'ok'=> true, 
-					'status' => 202, 
-					'message' => 'Recarga exitosa!'
+    		return response(
+			[
+				'data'=> ['saldo' => $cliente->amount], 
+				'ok'=> true, 
+				'status' => 202, 
+				'message' => 'Recarga exitosa!'
 
-				],202)->header('Content-Type', 'application/json');
-	    		
-	    	} catch (Exception $e) 
-	    	{
-	    		return response(
-				[
-					'ok'=> false, 
-					'status' => 500, 
-					'message' => report($e)
-					
-				],500)->header('Content-Type', 'application/json');
-	    	}
+			],202)->header('Content-Type', 'application/json');
 
     	}else
     	{

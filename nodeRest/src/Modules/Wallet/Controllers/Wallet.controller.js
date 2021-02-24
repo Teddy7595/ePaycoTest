@@ -1,16 +1,21 @@
-let _Response = require('../../../Interfaces/response.interface');
-const call = require('node-fetch');
-const app = require('express');
-const WALLET_ROUTE = app();
-const URL_ROOT = 'http://127.0.0.1:8000';
+let _Response = require('../../../Interfaces/response.interface');// estandarizacion de respuestas
+
+const call = require('node-fetch');//fetch para llamar la API vecina
+
+const app = require('express');//inicialización de express para rutas
+
+const WALLET_ROUTE = app();//seteo de express
+
+const URL_ROOT = 'http://127.0.0.1:8000';//ruta del API LARAVEL
 
 WALLET_ROUTE.get('/hello',(req, res)=>
 {
 	return res.status(200).json('Ruta crud de wallet '); 
+	//ruta de saludo para confirmar estructura del módulo
 }); 
 
 WALLET_ROUTE.post('/signin',(req,res)=>
-{
+{//ruta de registro
 	const send =
 	{
 		"name"      : req.body.name,
@@ -19,7 +24,6 @@ WALLET_ROUTE.post('/signin',(req,res)=>
 		"phone"     : req.body.phone,
 		"id_card"   : req.body.id_card
 	}
-	console.log(send);
 
 	call(URL_ROOT+'/wallet/signin',
 	{
@@ -35,7 +39,8 @@ WALLET_ROUTE.post('/signin',(req,res)=>
 	.then( (data) =>
 	{ 
 		console.log(data);
-		return res.status(202).json(data); 
+		_Response = data;
+		return res.status(_Response.status).json(_Response); 
 	})
 	.catch( (err) =>
 	{
@@ -45,23 +50,76 @@ WALLET_ROUTE.post('/signin',(req,res)=>
 });
 
 WALLET_ROUTE.post('/recharge',(req, res)=>
-{
-	return res.status(200).json(_Response); 
+{//recarga de billetera
+	const send =
+	{
+		"amount"    : req.body.amount,
+		"phone"     : req.body.phone,
+		"id_card"   : req.body.id_card
+	}
+
+	call(URL_ROOT+'/wallet/recharge',
+	{
+		method: 'POST',
+		headers:
+		{
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(send),
+		cache: 'no-cache'
+	})
+	.then( response => response.json())
+	.then( (data) =>
+	{ 
+		_Response = data;
+		return res.status(_Response.status).json(_Response); 
+	})
+	.catch( (err) =>
+	{
+		console.log(err);
+		return res.status(500).json(err);
+	});
 });
 
 WALLET_ROUTE.post('/payment',(req, res)=>
-{
+{//ruta de pago
 	return res.status(200).json(_Response); 
 });
 
 WALLET_ROUTE.post('/payment/confirm',(req, res)=>
-{
+{//ruta de confirmación de pago
 	return res.status(200).json(_Response); 
 });
 
-WALLET_ROUTE.post('/amount',(req, res)=>
-{
-	return res.status(200).json(_Response); 
+WALLET_ROUTE.post('/status',(req, res)=>
+{//ruta de consulta de saldos
+	const send =
+	{
+		"email": req.body.email
+	}
+
+	call(URL_ROOT+'/wallet/status',
+	{
+		method: 'POST',
+		headers:
+		{
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(send),
+		cache: 'no-cache'
+	})
+	.then( response => response.json())
+	.then( (data) =>
+	{ 
+		_Response = data;
+		return res.status(_Response.status).json(_Response);  
+	})
+	.catch( (err) =>
+	{
+		console.log(err);
+		return res.status(500).json(err);
+	});
 });
 
+//exportación del modulo de rutas
 module.exports = WALLET_ROUTE;
