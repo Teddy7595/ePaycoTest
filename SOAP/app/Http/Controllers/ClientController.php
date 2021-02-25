@@ -33,8 +33,8 @@ class ClientController extends Controller
 
 			];
 
-			return response($_aux, $_aux['status'])->header('Content-Type', 'application/json');
-			//return response()->xml($_aux, $_aux['status']);
+			//return response($_aux, $_aux['status'])->header('Content-Type', 'application/json');
+			return response()->xml($_aux, $_aux['status']);
     		
     	} catch (\Exception $e) 
     	{
@@ -45,8 +45,8 @@ class ClientController extends Controller
 				'message' => $e->getMessage()
 				
 			];
-			return response($_aux, $_aux['status'])->header('Content-Type', 'application/json');
-			//return response()->xml($_aux, $_aux['status']);
+			//return response($_aux, $_aux['status'])->header('Content-Type', 'application/json');
+			return response()->xml($_aux, $_aux['status']);
     	}
     }
 
@@ -65,8 +65,8 @@ class ClientController extends Controller
 				'message' => 'Tiene un saldo de...'
 
 			];
-			return response($_aux, $_aux['status'])->header('Content-Type', 'application/json');
-			//return response()->xml($_aux, $_aux['status']);
+			//return response($_aux, $_aux['status'])->header('Content-Type', 'application/json');
+			return response()->xml($_aux, $_aux['status']);
     	}else
     	{
     		$_aux=
@@ -76,8 +76,8 @@ class ClientController extends Controller
 				'message' => 'No se encontrro al cliente'
 
 			];
-			return response($_aux, $_aux['status'])->header('Content-Type', 'application/json');
-			//return response()->xml($_aux, $_aux['status'], ['encoding' => "UTF-8"]);
+			//return response($_aux, $_aux['status'])->header('Content-Type', 'application/json');
+			return response()->xml($_aux, $_aux['status']);
     	}
     }
 
@@ -101,8 +101,9 @@ class ClientController extends Controller
 				'message' => 'Recarga exitosa!'
 
 			];
-			//return response()->xml($_aux, $_aux['status']);
-			return response($_aux, $_aux['status'])->header('Content-Type', 'application/json');
+			
+			//return response($_aux, $_aux['status'])->header('Content-Type', 'application/json');
+			return response()->xml($_aux, $_aux['status']);
 
     	}else
     	{
@@ -113,8 +114,9 @@ class ClientController extends Controller
 				'message' => 'No se encontrro al cliente'
 
 			];
-			//return response()->xml($_aux, $_aux['status']);
-			return response($_aux, $_aux['status'])->header('Content-Type', 'application/json');
+			
+			//return response($_aux, $_aux['status'])->header('Content-Type', 'application/json');
+			return response()->xml($_aux, $_aux['status']);
     	}
     }
 
@@ -122,14 +124,14 @@ class ClientController extends Controller
     {
 		$_result = $this->_Payment->makePaySession($request);
 
-    	return response($_result, $_result['status'])->header('Content-Type', 'application/json');
-		//return response()->xml($_result, $_result['status']);
+    	//return response($_result, $_result['status'])->header('Content-Type', 'application/json');
+		return response()->xml($_result, $_result['status']);
     }
 
 	public function confirm(Request $request, $id)
 	{
 		$_result = $this->_Payment->confirmPayment($id);
-    	return response($_result, $_result['status'])->header('Content-Type', 'application/json');
-		//return response()->xml($_result, $_result['status']);
+    	//return response($_result, $_result['status'])->header('Content-Type', 'application/json');
+		return response()->xml($_result, $_result['status']);
 	}
 }

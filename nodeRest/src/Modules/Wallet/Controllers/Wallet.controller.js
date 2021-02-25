@@ -1,16 +1,32 @@
 let _Response = require('../../../Interfaces/response.interface');// estandarizacion de respuestas
-
-let service = require('../Service/wallet.service');
-
-const WalletServ = new service();
-
 const call = require('node-fetch');//fetch para llamar la API vecina
 
 const app = require('express');//inicialización de express para rutas
 
+const XML = require('xml-js');
+
 const WALLET_ROUTE = app();//seteo de express
 
 const URL_ROOT = 'http://127.0.0.1:8000';//ruta del API LARAVEL
+
+const removeJsonTextAttribute = (value, parentElement)=>
+{
+	try {
+		const parentOfParent = parentElement._parent;
+		const pOpKeys = Object.keys(parentElement._parent);
+		const keyNo = pOpKeys.length;
+		const keyName = pOpKeys[keyNo - 1];
+		const arrOfKey = parentElement._parent[keyName];
+		const arrOfKeyLen = arrOfKey.length;
+		if (arrOfKeyLen > 0) {
+			const arr = arrOfKey;
+			const arrIndex = arrOfKey.length - 1;
+			arr[arrIndex] = value;
+		} else {
+			parentElement._parent[keyName] = value;
+		}
+	} catch (e) { }
+};
 
 WALLET_ROUTE.get('/hello',(req, res)=>
 {
@@ -39,11 +55,14 @@ WALLET_ROUTE.post('/signin',(req,res)=>
 		body: JSON.stringify(send),
 		cache: 'no-cache'
 	})
-	.then( response => response.json())
+	.then( response => response.text())
 	.then( (data) =>
 	{ 
-		_Response = data;
-		return res.status(_Response.status).json(_Response); 
+
+		let aux = XML.xml2json(data, {compact: true, sanitize: true, spaces:1, ignoreDeclaration: true, textFn: removeJsonTextAttribute});
+		_Response = JSON.parse(aux);
+
+		return res.status(200).json(_Response); 
 	})
 	.catch( (err) =>
 	{
@@ -71,11 +90,12 @@ WALLET_ROUTE.post('/recharge',(req, res)=>
 		body: JSON.stringify(send),
 		cache: 'no-cache'
 	})
-	.then( resp => resp.json())
+	.then( response => response.text())
 	.then( (data) =>
 	{ 
-		_Response = data;
-		return res.status(_Response.status).json(_Response);  
+		let aux = XML.xml2json(data, {compact: true, sanitize: true, spaces:0, ignoreDeclaration: true, textFn: removeJsonTextAttribute});
+		_Response = JSON.parse(aux);
+		return res.status(200).json(_Response);   
 	})
 	.catch( (err) =>
 	{
@@ -104,11 +124,12 @@ WALLET_ROUTE.post('/payment',(req, res)=>
 		body: JSON.stringify(send),
 		cache: 'no-cache'
 	})
-	.then( response => response.json())
+	.then( response => response.text())
 	.then( (data) =>
 	{ 
-		_Response = data;
-		return res.status(_Response.status).json(_Response); 
+		let aux = XML.xml2json(data, {compact: true, sanitize: true, spaces:0, ignoreDeclaration: true, textFn: removeJsonTextAttribute});
+		_Response = JSON.parse(aux);
+		return res.status(200).json(_Response);  
 	})
 	.catch( (err) =>
 	{
@@ -131,11 +152,12 @@ WALLET_ROUTE.post('/confirm/:id',(req, res)=>
 		body: null,
 		cache: 'no-cache'
 	})
-	.then( response => response.json())
+	.then( response => response.text())
 	.then( (data) =>
 	{ 
-		_Response = data;
-		return res.status(_Response.status).json(_Response);  
+		let aux = XML.xml2json(data, {compact: true, sanitize: true, spaces:0, ignoreDeclaration: true, textFn: removeJsonTextAttribute});
+		_Response = JSON.parse(aux);
+		return res.status(200).json(_Response);  
 	})
 	.catch( (err) =>
 	{
@@ -149,7 +171,7 @@ WALLET_ROUTE.post('/status',(req, res)=>
 	const send =
 	{
 		"email": req.body.email
-	}
+	};
 
 	call(URL_ROOT+'/wallet/status',
 	{
@@ -161,11 +183,12 @@ WALLET_ROUTE.post('/status',(req, res)=>
 		body: JSON.stringify(send),
 		cache: 'no-cache'
 	})
-	.then( response => response.json())
+	.then( response => response.text())
 	.then( (data) =>
 	{ 
-		_Response = data;
-		return res.status(_Response.status).json(_Response);  
+		let aux = XML.xml2json(data, {compact: true, sanitize: true, spaces:0, ignoreDeclaration: true, textFn: removeJsonTextAttribute});
+		_Response = JSON.parse(aux);
+		return res.status(200).json(_Response);  
 	})
 	.catch( (err) =>
 	{
