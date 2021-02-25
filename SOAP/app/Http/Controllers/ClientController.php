@@ -114,13 +114,7 @@ class ClientController extends Controller
 
 	public function confirm(Request $request, $id)
 	{
-		return response(
-			[
-				'data'=> "dsadsadasdasdasdasdas",//session()->get($id), 
-				'ok'=> true, 
-				'status' => 202, 
-				'message' => 'Recarga exitosa!'
-
-			],202)->header('Content-Type', 'application/json');
+		$_result = $this->_Payment->confirmPayment($id);
+    	return response($_result, $_result['status'])->header('Content-Type', 'application/json');
 	}
 }

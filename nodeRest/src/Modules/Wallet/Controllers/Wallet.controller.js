@@ -115,8 +115,9 @@ WALLET_ROUTE.post('/payment',(req, res)=>
 
 WALLET_ROUTE.post('/confirm/:id',(req, res)=>
 {//ruta de confirmación de pago
+	let id = req.params['id'];
 
-	call(URL_ROOT+'/wallet/confirm/'+req.params.id,
+	call(URL_ROOT+'/wallet/confirm/'+id,
 	{
 		method: 'POST',
 		headers:
