@@ -51,7 +51,7 @@ class Payment
             [ 
 				'ok'=> true, 
 				'status' => 201, 
-				'message' => 'Transacción en espera; codigo: '.$value['session_id'].', por favor confirmar',
+				'message' => 'Transaccion en espera; codigo: '.$value['session_id'].', por favor confirmar',
                 'data' =>
                 [
                     'session_id'  => $value['session_id'],
@@ -67,7 +67,7 @@ class Payment
             [ 
 				'ok'=> false, 
 				'status' => 401, 
-				'message' => 'Ha ocurrido un error en la transacción, por favor verifica tus datos',
+				'message' => 'Ha ocurrido un error en la transaccion, por favor verifica tus datos',
                 'data' => null
 
             ];
@@ -133,7 +133,7 @@ class Payment
             [ 
 				'ok'=> true, 
 				'status' => 202, 
-				'message' => 'Transacción confirmada!',
+				'message' => 'Transaccion confirmada!',
                 'data' =>
                 [
                     'saldo'  => $value[0]->amount

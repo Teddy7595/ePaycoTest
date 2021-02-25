@@ -1,5 +1,9 @@
 let _Response = require('../../../Interfaces/response.interface');// estandarizacion de respuestas
 
+let service = require('../Service/wallet.service');
+
+const WalletServ = new service();
+
 const call = require('node-fetch');//fetch para llamar la API vecina
 
 const app = require('express');//inicialización de express para rutas
@@ -67,11 +71,11 @@ WALLET_ROUTE.post('/recharge',(req, res)=>
 		body: JSON.stringify(send),
 		cache: 'no-cache'
 	})
-	.then( response => response.json())
+	.then( resp => resp.json())
 	.then( (data) =>
 	{ 
 		_Response = data;
-		return res.status(_Response.status).json(_Response); 
+		return res.status(_Response.status).json(_Response);  
 	})
 	.catch( (err) =>
 	{
