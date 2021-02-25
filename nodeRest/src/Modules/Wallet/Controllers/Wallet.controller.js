@@ -113,10 +113,30 @@ WALLET_ROUTE.post('/payment',(req, res)=>
 	});
 });
 
-WALLET_ROUTE.post('/payment/confirm',(req, res)=>
+WALLET_ROUTE.post('/confirm/:id',(req, res)=>
 {//ruta de confirmación de pago
 
-	return res.status(200).json(_Response); 
+	call(URL_ROOT+'/wallet/confirm/'+req.params.id,
+	{
+		method: 'POST',
+		headers:
+		{
+			'Content-Type': 'application/json'
+		},
+		body: null,
+		cache: 'no-cache'
+	})
+	.then( response => response.json())
+	.then( (data) =>
+	{ 
+		_Response = data;
+		return res.status(_Response.status).json(_Response);  
+	})
+	.catch( (err) =>
+	{
+		console.log(err);
+		return res.status(500).json(err);
+	});
 });
 
 WALLET_ROUTE.post('/status',(req, res)=>

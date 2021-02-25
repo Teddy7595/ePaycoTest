@@ -16,11 +16,11 @@ use App\Http\Controllers\ClientController;
 
 Route::prefix('wallet')->group(function () 
 {
-    Route::post('/signin', [ClientController::class, 'signin']);
-    Route::post('/status', [ClientController::class, 'status']);
-    Route::post('/recharge', [ClientController::class, 'recharge']);
-    Route::post('/payment', [ClientController::class, 'payment']);
-    Route::post('/confirm', [ClientController::class, 'recharge']);
+    Route::post('/signin',       [ClientController::class, 'signin']);
+    Route::post('/status',       [ClientController::class, 'status']);
+    Route::post('/recharge',     [ClientController::class, 'recharge']);
+    Route::post('/payment',      [ClientController::class, 'payment']);
+    Route::post('/confirm/{id}', [ClientController::class, 'confirm']);
 });
 
 

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Models\Client;
 use App\Src\Payment;
 
@@ -108,13 +107,20 @@ class ClientController extends Controller
 
     public function payment(Request $request)
     {
-    	return response(
-		[
-			'data'=> $this->_Payment->makePaySession($request), 
-			'ok'=> true, 
-			'status' => 202, 
-			'message' => 'Recarga exitosa!'
+		$_result = $this->_Payment->makePaySession($request);
 
-		],202)->header('Content-Type', 'application/json');
+    	return response($_result, $_result['status'])->header('Content-Type', 'application/json');
     }
+
+	public function confirm(Request $request, $id)
+	{
+		return response(
+			[
+				'data'=> "dsadsadasdasdasdasdas",//session()->get($id), 
+				'ok'=> true, 
+				'status' => 202, 
+				'message' => 'Recarga exitosa!'
+
+			],202)->header('Content-Type', 'application/json');
+	}
 }
