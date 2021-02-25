@@ -85,17 +85,19 @@ class ClientController extends Controller
     public function recharge(Request $request)
     {
     	$cliente = Client::where('id_card', $request->toArray()['id_card'])
-    					 ->where('phone', $request->toArray()['phone'])
-    					 ->find(1);
-    	if($cliente)
-    	{
-    		$cliente->amount = $cliente->amount + $request->amount;
+    					->where('phone', $request->toArray()['phone'])->get();
 
-    		$cliente->update();
+    	if(sizeof($cliente) > 0)
+    	{
+    		$cliente[0]->amount = $cliente[0]->amount + $request->amount;
+			
+			Client::where('id_card', $request->toArray()['id_card'])
+    			->where('phone', $request->toArray()['phone'])
+				->update(['amount' => $cliente[0]->amount]);
 
     		$_aux=
 			[
-				'data'=> ['saldo' => $cliente->amount], 
+				'data'=> ['saldo' => $cliente[0]->amount], 
 				'ok'=> true, 
 				'status' => 202, 
 				'message' => 'Recarga exitosa!'

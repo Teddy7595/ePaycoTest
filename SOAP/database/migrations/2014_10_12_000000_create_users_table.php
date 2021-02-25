@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('phone');
             $table->string('id_card');
             $table->string('amount');
-        });
+        }); 
     }
 
     /**
