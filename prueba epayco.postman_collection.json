@@ -1,0 +1,331 @@
+{
+	"info": {
+		"_postman_id": "7131f122-4455-4263-b8f9-3ab6bb0bece2",
+		"name": "prueba epayco",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "REST",
+			"item": [
+				{
+					"name": "registrar cliente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\"      : \"a\",\r\n    \"lst_name\"  : \"a\",\r\n    \"email\"     : \"a@gmail.com\",\r\n    \"phone\"     : \"111\",\r\n    \"id_card\"   : \"111\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8001/wallet/signin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"wallet",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "consulta cartera",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"teddypottella@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8001/wallet/status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"wallet",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "recargar cartera",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phone\"     : \"111\",\r\n    \"id_card\"   : \"111\",\r\n    \"amount\"  : 350000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8001/wallet/recharge",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"wallet",
+								"recharge"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pago cartera",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id_SELLER\"     : \"a@gmail.com\",\r\n    \"Id_CLIENT\"     : \"teddypottella@gmail.com\",\r\n    \"amount\"        : 35000,\r\n    \"descp\"         : \"Unos cuantos bitcoins...\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8001/wallet/payment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"wallet",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pago cartera, confirmación",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8001/wallet/confirm/d39597",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"wallet",
+								"confirm",
+								"d39597"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Hello wallet node",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8001/wallet/hello",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"wallet",
+								"hello"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SOAP",
+			"item": [
+				{
+					"name": "registrar cliente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\"      : \"a\",\r\n    \"lst_name\"  : \"a\",\r\n    \"email\"     : \"a@gmail.com\",\r\n    \"phone\"     : \"111\",\r\n    \"id_card\"   : \"111\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/wallet/signin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"wallet",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "consulta cartera",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"Dummy3a@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/wallet/status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"wallet",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "recargar cartera",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phone\"     : \"111\",\r\n    \"id_card\"   : \"111\",\r\n    \"amount\"  : 350000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/wallet/recharge",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"wallet",
+								"recharge"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pago cartera",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id_SELLER\"     : \"b@gmail.com\",\r\n    \"Id_CLIENT\"     : \"a@gmail.com\",\r\n    \"amount\"        : 10,\r\n    \"descp\"         : \"Unos cuantos bitcoins...\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/wallet/payment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"wallet",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pago cartera, confirmación",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/wallet/confirm/9354a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"wallet",
+								"confirm",
+								"9354a"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
