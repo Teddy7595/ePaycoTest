@@ -23,7 +23,7 @@ class ClientController extends Controller
     	try 
     	{
     		$nuevo->save();
-
+			//cro el molde del XML para luego a través de una funcion ó librería convertir la respuesta en SOAP
     		$_aux=
 			[
 				'data'=> $nuevo->toArray(), 
@@ -84,17 +84,22 @@ class ClientController extends Controller
     //funcion de recarga de saldo
     public function recharge(Request $request)
     {
+		//busc al cliente en base a los datos solicitados...
     	$cliente = Client::where('id_card', $request->toArray()['id_card'])
     					->where('phone', $request->toArray()['phone'])->get();
 
+		//si hay cliente...
     	if(sizeof($cliente) > 0)
     	{
+			//reargo el saldo
     		$cliente[0]->amount = $cliente[0]->amount + $request->amount;
 			
+			//actualizo el saldo del cliente
 			Client::where('id_card', $request->toArray()['id_card'])
     			->where('phone', $request->toArray()['phone'])
 				->update(['amount' => $cliente[0]->amount]);
 
+			//creo el molde/objeto que tendrá el XML
     		$_aux=
 			[
 				'data'=> ['saldo' => $cliente[0]->amount], 
@@ -104,6 +109,7 @@ class ClientController extends Controller
 
 			];
 			
+			//lo retorno como SOAP
 			//return response($_aux, $_aux['status'])->header('Content-Type', 'application/json');
 			return response()->xml($_aux, $_aux['status']);
 

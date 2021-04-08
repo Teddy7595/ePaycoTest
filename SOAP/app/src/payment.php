@@ -6,7 +6,7 @@ use App\Models\Client;
 use App\Models\Session;
 use Illuminate\Support\Facades\Crypt;
 
-//Class to treat payments and confirmation
+//Clase para el tratamiento y confirmación de pagos
 class Payment  
 {
     public function __construct($var = null) 
@@ -14,7 +14,7 @@ class Payment
         
     }
 
-    //function to create a session to payment
+    //funcion que crea una sesion de pago
     public function makePaySession($values)
     {
         $_exist_SELLER = $this->findUserbyEmail($values->Id_SELLER);
@@ -24,10 +24,10 @@ class Payment
         $_token_session         = '######';
         $_encrypt_transaction   = '######';
 
-        //if exists customer and seller
+        //si existe el vendedor y el cliente...
         if($_exist_CLIENT && $_exist_SELLER)
         {
-            //if the customer's balance is sufficient for the transaction
+            //si el balance del cliente es suficiente para la operacion...
             if($_exist_CLIENT[0]->amount >= $values->amount)
             {
                 $_token_session     = $this->makeTokenPayment();
@@ -40,7 +40,7 @@ class Payment
         return $this->response_payment($_result);
     }
 
-    //function return the response after payment created
+    //funcion que retorna el pago despues de haber sido creado...
     private function response_payment($value)
     {
         $_aux = [];
@@ -76,7 +76,7 @@ class Payment
         return $_aux;
     }
 
-    //function to find a user
+    //funcion que busca un usuario en base al email...
     private function findUserbyEmail($email)
     {
         $_result = Client::where('email', $email)->get();
@@ -86,7 +86,7 @@ class Payment
         return $_result;
     }
 
-    //function to make a session
+    //funcion que crea una sesion de token en base de datos...
     private function tokenSessionPayment($token_session, $encrypt_payment)
     {
         Session::Create(['id'=>$token_session, 'token'=>$encrypt_payment]);
@@ -94,24 +94,25 @@ class Payment
         return ['session_id'=> $token_session, 'transaction'=> $encrypt_payment];
     }
 
-    //function to make token 6digits
+    //funcion que crea un toen de 6digitos
     private function makeTokenPayment($long_string = 6)
     {
         ($long_string < 6)? $long_string = 6: $long_string;
         return bin2hex(openssl_random_pseudo_bytes(($long_string - ($long_string % 2)) / 2));
     }
 
-    //function to confirm payment
+    //funcion para confirmar el pago
     public function confirmPayment($_id)
     {
-        //retrieve and delete de payment session
+        //recibe y borra la sesión de pago pendiente en base de datos
         $_transaction = Session::find($_id);
 
-        //if exist a transaction...
+        //si existe una transaccion...
         if($_transaction)
         {
             $_aux = $_transaction;
             $_transaction->delete();
+            //reciclo la variable para retornar la respuesta de la operación de confirmación retornando el balance del cliente...
             $_transaction = $this->changeAccountBalance(decrypt($_aux->token));
 
         }else
@@ -122,7 +123,7 @@ class Payment
         return $this->response_confirm($_transaction);
     }
 
-    //function to response to confirm payment
+    //funcion para respuesta de confirmación de pago
     private function response_confirm($value)
     {
         $_aux = [];
@@ -157,16 +158,17 @@ class Payment
         return $_aux;
     }
 
-    //funcion to complete transaction
+    //funcion para completar la transacción
     private function changeAccountBalance($_transaction)
     {
+        //busco a ambas partes, usuario y cliente
         $_customer = $this->findUserbyEmail($_transaction['Id_CLIENT']);
         $_seller   = $this->findUserbyEmail($_transaction['Id_SELLER']);
 
-        //proceed to change balance between both users
+        //procedo a operar el balance monetario entre ambos..
         $_customer[0]->amount = $_customer[0]->amount - $_transaction['amount']; 
         $_seller[0]->amount   = $_seller[0]->amount + $_transaction['amount']; 
-        
+        //luego actualizo dicho balance de ambas partes...
         Client::where('email',$_customer[0]->email)->update(['amount' => $_customer[0]->amount]);
         Client::where('email',$_seller[0]->email)->update(['amount' => $_seller[0]->amount]);
 
