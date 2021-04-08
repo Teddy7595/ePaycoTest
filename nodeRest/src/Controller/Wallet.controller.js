@@ -1,4 +1,4 @@
-let _Response = require('../../../Interfaces/response.interface');// estandarizacion de respuestas
+let _Response = require('../Interfaces/response.interface');// estandarizacion de respuestas
 const call = require('node-fetch');//fetch para llamar la API vecina
 
 const app = require('express');//inicialización de express para rutas
@@ -9,7 +9,8 @@ const WALLET_ROUTE = app();//seteo de express
 
 const URL_ROOT = 'http://127.0.0.1:8000';//ruta del API LARAVEL
 
-const removeJsonTextAttribute = (value, parentElement)=>
+//funcion que purifica el xml y quita los elementos nos necesario al hacer el CAST de XML a JSON
+const removeJsonTextAttribute = (value, parentElement) =>
 {
 	try {
 		const parentOfParent = parentElement._parent;
@@ -18,11 +19,14 @@ const removeJsonTextAttribute = (value, parentElement)=>
 		const keyName = pOpKeys[keyNo - 1];
 		const arrOfKey = parentElement._parent[keyName];
 		const arrOfKeyLen = arrOfKey.length;
-		if (arrOfKeyLen > 0) {
+		if (arrOfKeyLen > 0) 
+		{
 			const arr = arrOfKey;
 			const arrIndex = arrOfKey.length - 1;
 			arr[arrIndex] = value;
-		} else {
+
+		} else 
+		{
 			parentElement._parent[keyName] = value;
 		}
 	} catch (e) { }
@@ -30,7 +34,7 @@ const removeJsonTextAttribute = (value, parentElement)=>
 
 WALLET_ROUTE.get('/hello',(req, res)=>
 {
-	return res.status(200).json('Ruta crud de wallet '); 
+	return res.status(200).json('Ruta crud de wallet'); 
 	//ruta de saludo para confirmar estructura del módulo
 }); 
 
@@ -43,8 +47,9 @@ WALLET_ROUTE.post('/signin',(req,res)=>
 		"email"     : req.body.email,
 		"phone"     : req.body.phone,
 		"id_card"   : req.body.id_card
-	}
+	}//objeto json que contendrá los datos para registrar un cliente
 
+	//llamo al servicio SOAP y le paso los datos del objeto de registro
 	call(URL_ROOT+'/wallet/signin',
 	{
 		method: 'POST',
@@ -55,13 +60,15 @@ WALLET_ROUTE.post('/signin',(req,res)=>
 		body: JSON.stringify(send),
 		cache: 'no-cache'
 	})
-	.then( response => response.text())
+	.then( response => response.text()) //recibo el xml
 	.then( (data) =>
 	{ 
 
+		//usando una librearia junto con unos parámetros específicos, casteo y limpio el xml a json
 		let aux = XML.xml2json(data, {compact: true, sanitize: true, spaces:1, ignoreDeclaration: true, textFn: removeJsonTextAttribute});
 		_Response = JSON.parse(aux);
 
+		//retorno el estado
 		return res.status(200).json(_Response); 
 	})
 	.catch( (err) =>
@@ -78,7 +85,7 @@ WALLET_ROUTE.post('/recharge',(req, res)=>
 		"amount"    : req.body.amount,
 		"phone"     : req.body.phone,
 		"id_card"   : req.body.id_card
-	}
+	}//objeto json que contendrá los datos para recrga de la billetera virtual
 
 	call(URL_ROOT+'/wallet/recharge',
 	{

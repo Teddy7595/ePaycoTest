@@ -9,8 +9,6 @@
 			{
 				#folder_Controllers
 					wallet.controller.js
-				#folder_Services
-					wallet.service.js
 				wallet.module.js
 			}
 		}
